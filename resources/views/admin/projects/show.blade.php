@@ -24,7 +24,7 @@
 
     <div class="d-flex justify-content-between gap-2">
         <a href="{{route('admin.projects.edit', $project)}}" class="btn btn-warning"> <i class="fas fa-pencil me-2"></i>Modifica</a>
-       <form action="{{route('admin.projects.destroy', $project)}}" method="POST">
+       <form action="{{route('admin.projects.destroy', $project)}}" method="POST" class="delete-form">
         @csrf
         @method('DELETE')
         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-can me-2"></i>Elimina</button>
@@ -32,4 +32,9 @@
     </div>
 </footer>
 
+@endsection
+
+
+@section('scripts')
+      @vite('resources/js/delete_confermation.js')
 @endsection

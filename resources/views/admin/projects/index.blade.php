@@ -9,7 +9,7 @@
 </header>
 
 
-<table>
+
     <table class="table table-dark table-striped">
         <thead>
           <tr>
@@ -34,7 +34,7 @@
                     <a href="{{route('admin.projects.show', $project)}}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
 
                     <a href="{{route('admin.projects.edit', $project)}}" class="btn btn-sm btn-warning"> <i class="fas fa-pencil"></i></a>
-                    <form action="{{route('admin.projects.destroy', $project)}}" method="POST">
+                    <form action="{{route('admin.projects.destroy', $project)}}" method="POST" class="delete-form">
                      @csrf
                      @method('DELETE')
                      <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-can"></i></button>
@@ -55,6 +55,8 @@
             @endforelse
         </tbody>
       </table>
-</table>
+@endsection
 
+@section('scripts')
+      @vite('resources/js/delete_confermation.js')
 @endsection
