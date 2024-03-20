@@ -5,20 +5,7 @@
 @section('content')
 
 <header class="d-flex align-tiem-center justify-content-between">
-    <h1>Projects</h1>
-
-  <a href="{{route('admin.projects.trash')}}">Vedi cestino</a>
-
-    <form action="{{route('admin.projects.index')}}" method="GET">
-      <div class="input-group">
-        <select class="form-select" name="filter">
-          <option value="">Tutti</option>
-          <option value="published" @if($filter === 'published') selected @endif>Publicati</option>
-          <option value="drafts" @if($filter === 'drafts') selected @endif>Bozze</option>
-        </select>
-        <button class="btn btn-outline-secondary">Cerca</button>
-      </div>
-    </form>
+    <h1>Progetti eliminati</h1>
 </header>
 
 
@@ -33,8 +20,9 @@
             <th scope="col">Creato il</th>
             <th scope="col">Ultima modifica</th>
             <th>
-              <div class="d-flex justify-content-end">
-                <a href="{{route('admin.projects.create')}}" class="btn btn-sm btn-success"><i class="fas fa-plus me-2"></i>Nuovo Progetto</a></th>
+              <div class="d-flex justify-content-end gap-2">
+                <a href="{{route('admin.projects.index')}}" class="btn btn-warning">Vedi post attivi</a>
+                <a href="" class="btn btn-danger"><i class="fas fa-tash me-2"></i>Svuota cestino </a>
               </div>
           </tr>
         </thead>
@@ -52,11 +40,17 @@
                     <a href="{{route('admin.projects.show', $project)}}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
 
                     <a href="{{route('admin.projects.edit', $project)}}" class="btn btn-sm btn-warning"> <i class="fas fa-pencil"></i></a>
-                    <form action="{{route('admin.projects.destroy', $project)}}" method="POST" class="delete-form">
+                    <form action="{{route('admin.projects.drop', $project)}}" method="POST" class="delete-form">
                      @csrf
                      @method('DELETE')
                      <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-can"></i></button>
                     </form>
+
+                    <form action="{{route('admin.projects.restore', $project)}}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-arrows-rotate"></i></button>
+                       </form>
 
                  </td> 
                 </tr>
@@ -73,9 +67,6 @@
             @endforelse
         </tbody>
       </table>
-      @if($projects->hasPages())
-      {{$projects->links()}}
-      @endif
 @endsection
 
 @section('scripts')

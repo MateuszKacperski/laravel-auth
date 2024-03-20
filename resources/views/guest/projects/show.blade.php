@@ -1,15 +1,14 @@
+
 @extends('layouts.app')
-@section('title', 'home')
+@section('title', 'Project')
 @section('content')
 <header>
-    <h1>Projects</h1>
-    <h3>Scopri i miei progetti</h3>
-    @if($projects->hasPages())
-    {{$projects->links()}}
-    @endif
+    <h1>Project</h1>
 </header>
 
-@forelse ($projects as $project)
+
+
+
 <div class="card my-5">
     <div class="card-header d-flex align-items-center justify-content-between">
         {{$project->title}}
@@ -31,8 +30,4 @@
             
      </div>
 </div>
-@empty
-    <h3>Non ci sono progetti</h3>
-@endforelse
-
 @endsection
