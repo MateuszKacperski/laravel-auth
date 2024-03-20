@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 class ProjectController extends Controller
 {
     /**
@@ -28,7 +30,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        $project = new Project();
+        return view('admin.projects.create', compact('project'));
     }
 
     /**
@@ -36,7 +39,35 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|min:5|max:50|unique:projects',
+            'content' => 'required|string',
+            'image' => 'nullable|url',
+            'is_published' => 'nullable|boolean'
+        ],[
+            'title.required' => 'Il titolo e obligatorio',
+            'content.reqwuire' => 'La descrizione e obligatoria',
+            'title.min' => 'Il titolo e troppo corto',
+            'title.max' => 'Il titolo e troppo lungo ',
+            'title.unique' => 'Il titolo deve essere univoco',
+            'image.url' => 'Devi inserire l`url',
+            'is_published.boolean' => 'Il valore del campo publicazione non e valido',
+        ]);
+
+        $data = $request->all();
+
+        $project = new Project();
+
+        $project->fill($data);
+
+        $project->slug = Str::slug($project->title);
+
+        $project->is_published = Arr::exists($data, 'is_published');
+
+
+        $project->save();
+
+        return to_route('admin.projects.show', $project->id)->with('messager', 'Post creato con sucesso')->wtih('type', 'success');
     }
 
     /**
@@ -52,7 +83,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -60,7 +91,36 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+ 
+        $data = $request->validate([
+           'title' => ['required', 'string', 'min:5', 'max:50', Rule::unique('projects')->ignore($project->id)],
+            'content' => 'required|string',
+            'image' => 'nullable|url',
+            'is_published' => 'nullable|boolean'
+        ],[
+            'title.required' => 'Il titolo e obligatorio',
+            'content.reqwuire' => 'La descrizione e obligatoria',
+            'title.min' => 'Il titolo e troppo corto',
+            'title.max' => 'Il titolo e troppo lungo ',
+            'title.unique' => 'Il titolo deve essere univoco',
+            'image.url' => 'Devi inserire l`url',
+            'is_published.boolean' => 'Il valore del campo publicazione non e valido',
+        ]);
+
+        $data = $request->all();
+
+
+        $project->fill($data);
+        
+        $project->slug = Str::slug($project->title);
+
+        $project->is_published = Arr::exists($data, 'is_published');
+        
+        $project->save();
+
+    
+
+        return to_route('admin.projects.show', $project->id)->with('messager', 'Progetto creato con sucesso')->with('type', 'success');
     }
 
     /**
@@ -73,3 +133,4 @@ class ProjectController extends Controller
         return to_route('admin.projects.index')->with('type', 'success')->with('message', 'Eliminato con sucesso');
     }
 }
+    
