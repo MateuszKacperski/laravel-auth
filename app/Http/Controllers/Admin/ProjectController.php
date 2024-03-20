@@ -130,7 +130,13 @@ class ProjectController extends Controller
     {
         $project->delete();
 
-        return to_route('admin.projects.index')->with('type', 'success')->with('message', 'Eliminato con sucesso');
+        return to_route('admin.projects.index')
+        ->with('toast-button-type', 'success')
+        ->with('tosat-message', 'Eliminato con sucesso')
+        ->with('toast-label', config('app.name'))
+        ->with('toast-method', 'PATCH')
+        ->with('toast-route', route('admin.projects.restore', $project->id))
+        ->with('toast-button-label', 'Anulla');
     }
 
     public function trash(){

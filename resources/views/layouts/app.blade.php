@@ -36,11 +36,14 @@
 
       
         <main class="container py-3">
+
             @include('includes.alerts')
+
             @yield('content')
         </main>
     </div>
 
+    @include('includes.toast')
 
     @yield('scripts')
 </body>
