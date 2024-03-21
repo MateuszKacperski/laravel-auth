@@ -27,10 +27,10 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function(){
 
 
     Route::get('/projects/trash', [AdminProjectController::class, 'trash'])->name('projects.trash');
-    Route::patch('/projects/{project}/restore', [AdminProjectController::class, 'restore'])->name('projects.restore');
-    Route::delete('/projects/{project}drop', [AdminProjectController::class, 'drop'])->name('projects.drop');
+    Route::patch('/projects/{project}/restore', [AdminProjectController::class, 'restore'])->name('projects.restore')->withTrashed();
+    Route::delete('/projects/{project}drop', [AdminProjectController::class, 'drop'])->name('projects.drop')->withTrashed();
 
-    Route::resource('projects', AdminProjectController::class); 
+    Route::resource('projects', AdminProjectController::class)->withTrashed(['show', 'edit']); 
 });
 
 Route::middleware('auth')->group(function () {
