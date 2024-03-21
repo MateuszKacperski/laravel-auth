@@ -132,7 +132,7 @@ class ProjectController extends Controller
 
         return to_route('admin.projects.index')
         ->with('toast-button-type', 'success')
-        ->with('tosat-message', 'Eliminato con sucesso')
+        ->with('toast-message', 'Eliminato con sucesso')
         ->with('toast-label', config('app.name'))
         ->with('toast-method', 'PATCH')
         ->with('toast-route', route('admin.projects.restore', $project->id))

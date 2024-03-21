@@ -9,7 +9,7 @@
     <div class="toast-body d-flex align-items-center justify-content-between">
      {{session('toast-message')}}
 
-        @session( 'toast-method')
+        @session( 'toast-message')
         @if (session('toast-method' === 'GET'))
          <a href="{{session('toast-route')}}" class="btn btn-sm btn-outline-{{session('toast-button-label')}}">{{session('toast-button-label')}}</a>
         @else
