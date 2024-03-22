@@ -1,8 +1,8 @@
 @if ($project->exists)
-    <form action="{{route('admin.projects.update', $project)}}" method="POST">
+    <form action="{{route('admin.projects.update', $project)}}" enctype="multipart/form-data" method="POST">
     @method('PUT')
 @else
-    <form action="{{route('admin.projects.store')}}" method="POST">
+    <form action="{{route('admin.projects.store')}}" enctype="multipart/form-data" method="POST">
 @endif
 
     @csrf
@@ -48,7 +48,7 @@
         <div class="col-11">
             <div class="mb-3">
                 <label for="image" class="form-label">Immagine</label>
-                <input type="url" class="form-control @error('image') is-invalid @elseif(old('image', '')) is-valid @enderror" id="image" name="image" placeholder="http:// o https://"
+                <input type="file" class="form-control @error('image') is-invalid @elseif(old('image', '')) is-valid @enderror" id="image" name="image" placeholder="http:// o https://"
                 value="{{old('image', $project->image)}}">
               </div>
               @error('image')
@@ -57,14 +57,28 @@
               </div>
               @else
               <div class="form-text">
-                  Inserisci un url
+                  Carica un file immagine
               </div>
               @enderror
         </div>
         <div class="col-1">
             <div class="mb-3">
-            <img src="{{old('image', $project->image ?? 'https://marcolanci.it/boolean/assets/placeholder.png')}}" class="img-fluid" alt="immagine Progetto" id="preview">
-            </div>
+
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
+                    <input type="text" class="form-control">
+                  </div>
+
+            <img src="{{old('image', $project->image) ? asset('storage/' . $project_img)
+            : 'https://marcolanci.it/boolean/assets/placeholder.png'}}" class="img-fluid" alt="immagine Progetto" id="preview">
+           
+        
+        
+        
+        
+        
+        
+        </div>
         </div>
         <div class="col-12 d-flex justify-content-end">
             <div class="form-check">
